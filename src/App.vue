@@ -1,13 +1,27 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <Nav />
+    <router-view />
   </div>
 </template>
-
+<script>
+  import Nav from './components/Nav.vue'
+  import axios from 'axios'
+  export default {
+    components:{
+      Nav
+    },
+    async created(){
+       const response = await axios.get('api/profile', {
+         headers:{
+           Authorization : 'bearer' + localStorage.getItem('token')
+         }
+       })
+       this.$store.dispatch('user', response.data.user)
+        // this.user = response.data.user
+    }
+  }
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

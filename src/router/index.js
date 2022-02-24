@@ -1,6 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import Dashboard from '../views/Dashboard.vue'
+import Login from '../components/Login.vue'
+import Register from '../components/Register.vue'
+import NavAdmin from '../components/NavAdmin.vue'
+import MenuManage from '../components/MenuManage.vue'
+import CategoryManage from '../components/CategoryManage.vue'
+
 
 Vue.use(VueRouter)
 
@@ -9,6 +16,38 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register
+  },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: Dashboard,
+    children : [
+      {
+        path: '/navadmin',
+        name: 'NavAdmin',
+        component: NavAdmin,
+      },
+    ]
+  },
+  {
+    path: '/menuManage',
+    name: 'MenuManage',
+    component: MenuManage,
+  },
+  {
+    path: '/categoryManage',
+    name: 'CategoryManage',
+    component: CategoryManage,
   },
   {
     path: '/about',
@@ -25,5 +64,11 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
-
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = localStorage.getItem('token')
+  if (to.name === 'Dashboard' && !isAuthenticated) next({ name: 'Login' })
+  if (to.name === 'MenuManage' && !isAuthenticated) next({ name: 'Login' })
+  if (to.name === 'CategoryManage' && !isAuthenticated) next({ name: 'Login' })
+  else next()
+})
 export default router
