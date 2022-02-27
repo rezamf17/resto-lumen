@@ -1,64 +1,111 @@
 <template>
-    <div>
-        <NavAdmin />
-        <h3>Category Manage</h3>
-        <a href="javascript:void(0)" @click="toggleAdd">Add</a>
-        <table>
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Category Name</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody v-for="(item, index) in category" :key="item.id">
-                <tr>
-                    <td>{{index+1}}</td>
-                    <td>{{item.category_name}}</td>
-                    <th>
-                        <a href="javascript:void(0)" @click="edit(item)">Edit</a> |
-                        <a href="javascript:void(0)" @click="deleteCategory(item)">Delete</a>
-                    </th>
-                </tr>
-            </tbody>
-        </table>
-        <div v-if="add">
-            <form @submit.prevent="addCategory">
-                <h3>Add Category</h3>
-                <input type="hidden" v-model="form.id">
-                Category Name
-                <input type="text" v-model="form.category_name"> <br>
-                <button type="submit">Add Category</button>
-            </form>
-        </div>
-        <div v-if="edit">
-            <form @click.prevent="updateCategory">
-                <h3>Edit Category</h3>
-                <input type="hidden" v-model="form.e_id">
-                Category Name
-                <input type="text" v-model="form.e_category_name"> <br>
-                <button type="submit">Edit Category</button>
-            </form>
-        </div>
-    </div>
+    <v-card  width="70%" style="margin-left: 15%" class="mt-10">
+        <v-card-subtitle>
+            <v-btn class="primary" @click="dialogAdd = true">
+                <v-icon>mdi-plus</v-icon>
+                Add Category
+            </v-btn>
+        </v-card-subtitle>
+            <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
+    <v-data-table
+      :headers="headers"
+      :items="category"
+      :search="search"
+    >
+    <template v-slot:item="{ item, index }">
+        <tr>
+          <td>{{ index + 1 }}</td>
+          <td>{{ item.category_name }}</td>
+          <th>
+            <v-icon @click="edit(item)">mdi-pencil</v-icon>
+            <v-icon @click.prevent="deleteCategory(item)">mdi-delete</v-icon>
+          </th>
+        </tr>
+      </template>
+    </v-data-table>
+        <v-dialog
+        v-model="dialogAdd"
+        scrollable
+        >
+        <v-card>
+            <v-card-title>Add New Category</v-card-title>
+            <v-divider></v-divider>
+            <v-card-text class="mt-10">
+                <form @submit.prevent="addCategory">
+                    <v-text-field
+                    v-model="form.category_name"
+                    clearable
+                    solo
+                    label="Category Name"></v-text-field>
+                    <button type="submit" style="display : none;">Submit</button>
+                </form>
+            </v-card-text>
+            <v-card-actions>
+                <v-btn text color="primary" @click="dialogAdd = false">
+                    Close
+                </v-btn>
+                <v-btn text color="primary" @click.prevent="addCategory">
+                    Add
+                </v-btn>
+            </v-card-actions>
+        </v-card>
+        </v-dialog>
+        <v-dialog
+        v-model="dialogEdit">
+            <v-card>
+                <v-card-title>Edit Category</v-card-title>
+                <v-divider></v-divider>
+                <v-card-text class="mt-10">
+                    <form @submit.prevent="updateCategory">
+                    <input type="hidden" v-model="form.e_id">
+                    <v-text-field
+                    v-model="form.e_category_name"
+                    solo
+                    clearable
+                    label="Category Name"></v-text-field>
+                    <button type="submit" style="display : none;">Submit</button>
+                    </form>
+                </v-card-text>
+                <v-card-actions>
+                    <v-btn text color="primary" @click="dialogEdit = false">
+                        Close
+                    </v-btn>
+                    <v-btn text color="primary" @click.prevent="updateCategory"> 
+                        Update
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+    </v-card>
 </template>
 <script>
-import NavAdmin from '../components/NavAdmin.vue'
 import axios from 'axios'
+import swal from 'sweetalert'
 export default {
-    components:{
-        NavAdmin
-    },
+
     data(){
         return{
-            category : '',
-            add : false,
+            search: "",
+            category : [],
+            dialogAdd : false,
+            dialogEdit : false,
             form :{
                 id: '',
                 category_name : '',
                 e_id: '',
                 e_category_name : '',
-            }
+            },
+            headers:[
+                {text : "No", value : "id"},
+                {text : "Category Name", value : "category_name"},
+                {text : "Actions"}
+            ],
         }
     },
     methods:{
@@ -69,27 +116,54 @@ export default {
         async addCategory(){
             await axios.post('api/addCategory', this.form)
             this.categoryView()
+            this.dialogAdd = false
+            swal({
+                title: "Success!",
+                text: "Add New Category Success!",
+                icon: "success",
+            })
         },
         edit(item) {
             this.form.e_id = item.id
             this.form.e_category_name = item.category_name
+            this.dialogEdit = true
         },
         updateCategory(){
             return axios.put('api/editCategory/' + this.form.e_id, {
                 category_name : this.form.e_category_name}).then(() => {
                     this.categoryView()
+                    this.dialogEdit = false
+                    swal({
+                title: "Success!",
+                text: "Edit Category Success!",
+                icon: "success",
+            })
                 })
         },
         deleteCategory(item){
-            axios.delete('api/deleteCategory/' + item.id).then(() => {
+            swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this data category!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            })
+            .then((willDelete) => {
+            if (willDelete) {
+                axios.delete('api/deleteCategory/' + item.id).then(() => {
                 this.categoryView()
                 let index = this.category.indexOf(item.name)
                 this.category.slice(index, 1)
             })
+                swal("Data Category has been deleted!", {
+                icon: "success",
+                });
+            } else {
+                swal("Data category is safe!");
+            }
+            });
+            
         },
-        toggleAdd(){
-            this.add = !this.add
-        }
     },
     mounted(){
         this.categoryView()

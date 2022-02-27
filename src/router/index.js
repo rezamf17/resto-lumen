@@ -4,7 +4,6 @@ import Home from '../views/Home.vue'
 import Dashboard from '../views/Dashboard.vue'
 import Login from '../components/Login.vue'
 import Register from '../components/Register.vue'
-import NavAdmin from '../components/NavAdmin.vue'
 import MenuManage from '../components/MenuManage.vue'
 import CategoryManage from '../components/CategoryManage.vue'
 
@@ -30,14 +29,7 @@ const routes = [
   {
     path: '/dashboard',
     name: 'Dashboard',
-    component: Dashboard,
-    children : [
-      {
-        path: '/navadmin',
-        name: 'NavAdmin',
-        component: NavAdmin,
-      },
-    ]
+    component: Dashboard
   },
   {
     path: '/menuManage',

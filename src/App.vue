@@ -1,55 +1,72 @@
 <template>
   <v-app>
+
     <v-app-bar
       app
       color="primary"
       dark
     >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
+    <v-app-bar-nav-icon @click="drawer = !drawer" v-if="user"></v-app-bar-nav-icon>
       <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+      <Nav />
     </v-app-bar>
-
+    <v-navigation-drawer
+      v-model="drawer"
+      class="teal"
+      dark
+      mini-variant
+      mini-variant-width="100"
+      app 
+    >
+    <v-list class="mt-15">
+        <v-list-item class="mb-3">
+          <v-btn text router to="/dashboard">
+            <v-icon >mdi-home</v-icon>
+          </v-btn>
+        </v-list-item>
+        <v-list-item class="mb-3">
+          <v-btn text router to="/menuManage">
+            <v-icon>mdi-pizza</v-icon>
+          </v-btn>
+        </v-list-item>
+        <v-list-item class="mb-3">
+          <v-btn text router to="/categoryManage">
+            <v-icon>mdi-book</v-icon>
+          </v-btn>
+        </v-list-item>
+    </v-list>
+    </v-navigation-drawer>
     <v-main>
-      <router-view/>
+      <router-view>
+      </router-view>
     </v-main>
   </v-app>
 </template>
 
 <script>
-
+import Nav from '../src/components/Nav.vue'
+import {mapGetters} from 'vuex'
+import axios from 'axios'
 export default {
   name: 'App',
-
+  components :{
+    Nav,
+    // NavAdmin
+  },
   data: () => ({
-    //
+    drawer : true
   }),
+   async created(){
+       const response = await axios.get('api/profile', {
+         headers:{
+           Authorization : 'bearer' + localStorage.getItem('token')
+         }
+       })
+       this.$store.dispatch('user', response.data.user)
+        // this.user = response.data.user
+    },
+    computed:{
+            ...mapGetters(['user'])
+        }
 };
 </script>
