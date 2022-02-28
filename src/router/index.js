@@ -6,7 +6,7 @@ import Login from '../components/Login.vue'
 import Register from '../components/Register.vue'
 import MenuManage from '../components/MenuManage.vue'
 import CategoryManage from '../components/CategoryManage.vue'
-
+import Profile from '../components/Profile.vue'
 
 Vue.use(VueRouter)
 
@@ -40,6 +40,11 @@ const routes = [
     path: '/categoryManage',
     name: 'CategoryManage',
     component: CategoryManage,
+  },
+   {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile,
   },
   {
     path: '/about',
