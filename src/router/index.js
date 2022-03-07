@@ -7,6 +7,7 @@ import Register from '../components/Register.vue'
 import MenuManage from '../components/MenuManage.vue'
 import CategoryManage from '../components/CategoryManage.vue'
 import Profile from '../components/Profile.vue'
+import ProfilePict from '../components/ProfilePict.vue'
 
 Vue.use(VueRouter)
 
@@ -46,6 +47,11 @@ const routes = [
     name: 'Profile',
     component: Profile,
   },
+   {
+    path: '/profilePict',
+    name: 'ProfilePict',
+    component: ProfilePict,
+  },
   {
     path: '/about',
     name: 'About',
@@ -66,6 +72,7 @@ router.beforeEach((to, from, next) => {
   if (to.name === 'Dashboard' && !isAuthenticated) next({ name: 'Login' })
   if (to.name === 'MenuManage' && !isAuthenticated) next({ name: 'Login' })
   if (to.name === 'CategoryManage' && !isAuthenticated) next({ name: 'Login' })
+  if (to.name === 'Profile' && !isAuthenticated) next({ name: 'Login' })
   else next()
 })
 export default router

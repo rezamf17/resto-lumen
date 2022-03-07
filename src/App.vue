@@ -8,7 +8,7 @@
       <v-spacer></v-spacer>
       <Nav />
     </v-app-bar>
-    <v-navigation-drawer v-model="drawer" class="teal" width="220" dark app
+    <v-navigation-drawer v-model="drawer" class="teal" width="220" dark app v-if="user"
       ><v-list-item>
         <v-list-item-content>
           <v-list-item-title class="text-h6"> RESTO-LUMEN </v-list-item-title>
@@ -16,8 +16,10 @@
         </v-list-item-content>
       </v-list-item>
       <v-list-item>
-        <v-avatar color="brown" size="36">
-          <v-icon dark> mdi-account-circle </v-icon>
+        <v-avatar size="36">
+          <img
+            :src="`${url}avatar/${user.image.image_name}`"
+          >
         </v-avatar>
       </v-list-item>
       <v-list-group :value="false" color="white" width="100%">
@@ -30,7 +32,7 @@
           </v-list-item>
         </template>
         <v-list dense nav>
-          <v-list-item link>
+          <v-list-item link to="/profile">
           <v-list-item-icon>
             <v-icon>mdi-account</v-icon>
           </v-list-item-icon>
@@ -63,7 +65,7 @@
       </v-list>
     </v-navigation-drawer>
     <v-main>
-      <router-view> </router-view>
+      <router-view :url="url"> </router-view>
     </v-main>
   </v-app>
 </template>
@@ -80,6 +82,7 @@ export default {
   },
   data: () => ({
     drawer: true,
+    url : 'http://localhost:3000/',
     items: [
       { title: "DASHBOARD", icon: "mdi-home", link: "/dashboard" },
       { title: "MENU MANAGE", icon: "mdi-pizza", link: "/menuManage" },

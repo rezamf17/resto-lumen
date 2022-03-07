@@ -170,7 +170,6 @@ export default {
     },
     addMenu() {
       axios.post("api/addMenu", this.form);
-      this.menuView();
       this.form.name = "";
       this.form.price = "";
       this.addData = false;
@@ -180,6 +179,7 @@ export default {
         text: "Add New Menu Success!",
         icon: "success",
       });
+      this.menuView();
     },
     edit(item) {
       this.form.e_id = item.id;
