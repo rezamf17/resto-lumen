@@ -42,8 +42,7 @@ export default {
     };
   },
   methods: {
-    async loginSubmit() {
-      try {
+     async loginSubmit() {
         await axios
           .post("api/login", {
             email: this.email,
@@ -52,12 +51,16 @@ export default {
           .then((response) => {
             localStorage.setItem("token", response.data.token);
             this.$store.dispatch("user", response.data.user);
-            this.$router.push({ name: "Dashboard" });
-            swal("Login Success!")
+            if(response.data.user.level == 'super-admin'){
+              this.$router.push({ name: "DashboardAdmin" });
+              swal("Login Success!")
+            }else if(response.data.user.level == 'admin'){
+              this.$router.push({ name: "Dashboard" });
+              swal("Login Success!")
+            }else{
+              swal("Login Failed!")
+            }
           });
-      } catch (response) {
-        swal("Login Failed!", "Email or Password is Invalid!", "warning");
-      }
     },
   },
 };

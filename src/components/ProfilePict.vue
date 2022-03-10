@@ -25,6 +25,7 @@
 </template>
 <script>
 import axios from 'axios'
+import swal from 'sweetalert'
 export default {
     data(){
         return{
@@ -36,6 +37,10 @@ export default {
             const bodyFormData = new FormData()
             bodyFormData.append("image_name", this.image_name)
             axios.post('api/changeImage', bodyFormData)
+            swal({
+                title : "Change Profile Pictures Success"
+            })
+            this.$router.push({name : 'Profile'})
         }
     }
 }

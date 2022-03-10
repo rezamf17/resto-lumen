@@ -17,9 +17,9 @@
       </v-list-item>
       <v-list-item>
         <v-avatar size="36">
-          <img
-            :src="`${url}avatar/${user.image.image_name}`"
-          >
+          <v-img
+            :src="`http://localhost:3000/avatar/${user.image.image_name}`"
+          ></v-img>
         </v-avatar>
       </v-list-item>
       <v-list-group :value="false" color="white" width="100%">
@@ -47,9 +47,9 @@
         </v-list>
       </v-list-group>
       <v-divider></v-divider>
-      <v-list dense nav class="mt-1">
+      <v-list dense nav class="mt-1" v-if="user.level == 'admin'">
         <v-list-item
-          v-for="item in items"
+          v-for="item in itemsAdmin"
           :key="item.title"
           link
           :to="item.link"
@@ -61,6 +61,21 @@
           <v-list-item-content>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
+        </v-list-item>
+      </v-list>
+      <v-list dense nav class="mt-1" v-if="user.level == 'super-admin'">
+        <v-list-item link
+        v-for="item in itemsSuper"
+          :key="item.title"
+          :to="item.link">
+          <v-list-item-icon>
+            <v-icon>
+              {{item.icon}}
+            </v-icon>
+          </v-list-item-icon>
+         <v-list-item-content >
+            <v-list-item-title>{{item.title}}</v-list-item-title>
+         </v-list-item-content>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -78,18 +93,22 @@ export default {
   name: "App",
   components: {
     Nav,
-    // NavAdmin
+
   },
   data: () => ({
     drawer: true,
     url : 'http://localhost:3000/',
-    items: [
+    itemsAdmin: [
       { title: "DASHBOARD", icon: "mdi-home", link: "/dashboard" },
       { title: "MENU MANAGE", icon: "mdi-pizza", link: "/menuManage" },
       { title: "CATEGORY MANAGE", icon: "mdi-book", link: "/categoryManage" },
     ],
+    itemsSuper : [
+      { title: "DASHBOARD", icon : "mdi-home", link: "/dashboardAdmin"},
+      { title: "ACCOUNT MANAGE", icon : "mdi-account", link: "/account"},
+    ]
   }),
-  async created() {
+   async created() {
     const response = await axios.get("api/profile", {
       headers: {
         Authorization: "bearer" + localStorage.getItem("token"),

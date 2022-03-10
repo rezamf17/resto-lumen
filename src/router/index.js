@@ -8,6 +8,8 @@ import MenuManage from '../components/MenuManage.vue'
 import CategoryManage from '../components/CategoryManage.vue'
 import Profile from '../components/Profile.vue'
 import ProfilePict from '../components/ProfilePict.vue'
+import AccountManage from '../components/AccountManage.vue'
+import DashboardAdmin from '../components/DashboardAdmin.vue'
 
 Vue.use(VueRouter)
 
@@ -42,6 +44,11 @@ const routes = [
     name: 'CategoryManage',
     component: CategoryManage,
   },
+  {
+    path: '/dashboardAdmin',
+    name: 'DashboardAdmin',
+    component: DashboardAdmin,
+  },
    {
     path: '/profile',
     name: 'Profile',
@@ -51,6 +58,11 @@ const routes = [
     path: '/profilePict',
     name: 'ProfilePict',
     component: ProfilePict,
+  },
+   {
+    path: '/account',
+    name: 'AccountManage',
+    component: AccountManage,
   },
   {
     path: '/about',

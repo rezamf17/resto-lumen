@@ -15,12 +15,13 @@
                 <v-list>
                     <v-list-item>
                         <v-list-item-content>
-                            <v-avatar>
+                        <v-avatar>
                         <img
-                            :src="`${url}avatar/${profile.image.image_name}`"
+                            :src="`http://localhost:3000/avatar/${profile.image.image_name}`"
                             :alt="image"
                         >
                         </v-avatar>
+                        {{profile.image.image_name}}
                         </v-list-item-content>
                         <v-list-item-content>
                             <v-btn text router to="/profilePict">
@@ -65,10 +66,9 @@
 import axios from 'axios'
 import swal from 'sweetalert'
 export default {
-    props: ['url'],
     data(){
         return{
-            profile : [],
+            profile : '',
             file : null,
             disable : true,
             rules : [
@@ -80,7 +80,6 @@ export default {
         getProfile(){
             axios.get("api/profile").then((res) => {
                 this.profile = res.data.user
-                console.log(res)
             }).catch((e) => {
                 console.log(e)
             })
