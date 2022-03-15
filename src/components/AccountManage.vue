@@ -165,8 +165,8 @@ export default {
         }
     },
     methods : {
-        async accountView(){
-            await axios.get('api/users').then(response => {
+        accountView(){
+            axios.get('api/users').then(response => {
                 this.account = response.data.users
             }).then(e => {
                 console.log(e)

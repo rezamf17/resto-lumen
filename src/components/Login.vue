@@ -1,5 +1,5 @@
 <template>
-  <v-card width="40%" class="mx-auto mt-10">
+  <v-card max-width="300px" class="mx-auto mt-10">
     <v-card-title>Login</v-card-title>
     <v-form @submit.prevent="loginSubmit">
       <v-card-text>
