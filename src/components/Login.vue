@@ -1,5 +1,5 @@
 <template>
-  <v-card max-width="300px" class="mx-auto mt-10">
+  <v-card max-width="400px" class="mx-auto mt-10">
     <v-card-title>Login</v-card-title>
     <v-form @submit.prevent="loginSubmit">
       <v-card-text>
@@ -42,8 +42,8 @@ export default {
     };
   },
   methods: {
-     async loginSubmit() {
-        await axios
+     loginSubmit() {
+        axios
           .post("api/login", {
             email: this.email,
             password: this.password,

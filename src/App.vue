@@ -102,21 +102,19 @@ export default {
       { title: "DASHBOARD", icon: "mdi-home", link: "/dashboard" },
       { title: "MENU MANAGE", icon: "mdi-pizza", link: "/menuManage" },
       { title: "CATEGORY MANAGE", icon: "mdi-book", link: "/categoryManage" },
+      { title: "ORDER MANAGE", icon: "mdi-currency-usd", link: "/order" },
     ],
     itemsSuper : [
       { title: "DASHBOARD", icon : "mdi-home", link: "/dashboardAdmin"},
       { title: "ACCOUNT MANAGE", icon : "mdi-account", link: "/account"},
     ]
   }),
-   async created() {
-    const response = await axios.get("api/profile", {
-      headers: {
-        Authorization: "bearer" + localStorage.getItem("token"),
-      },
-    });
+   created() {
+    const response = axios.get("api/profile");
     this.$store.dispatch("user", response.data.user);
     // this.user = response.data.user
   },
+  
   computed: {
     ...mapGetters(["user"]),
   },

@@ -42,7 +42,7 @@
         </v-row>
       </v-card>
 
-      <v-dialog v-model="cartDialog" scrollable>
+      <v-dialog v-model="cartDialog">
         <v-card>
           <v-form @submit.prevent="orderSubmit">
             <v-card-title>Cart Table</v-card-title>

@@ -10,6 +10,7 @@ import Profile from '../components/Profile.vue'
 import ProfilePict from '../components/ProfilePict.vue'
 import AccountManage from '../components/AccountManage.vue'
 import DashboardAdmin from '../components/DashboardAdmin.vue'
+import OrderManage from '../components/OrderManage.vue'
 
 Vue.use(VueRouter)
 
@@ -63,6 +64,11 @@ const routes = [
     path: '/account',
     name: 'AccountManage',
     component: AccountManage,
+  },
+   {
+    path: '/order',
+    name: 'OrderManage',
+    component: OrderManage,
   },
   {
     path: '/about',

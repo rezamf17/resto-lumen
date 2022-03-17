@@ -21,7 +21,6 @@
                             :alt="image"
                         >
                         </v-avatar>
-                        {{user.image.image_name}}
                         </v-list-item-content>
                         <v-list-item-content>
                             <v-btn text router to="/profilePict">
