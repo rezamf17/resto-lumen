@@ -43,15 +43,10 @@
           Detail Order
         </v-card-title>
         <v-card-text>
-          <!-- <v-text-field
-            v-model="id"
-            label="Id"
-          ></v-text-field> -->
           <v-text-field
             v-model="customer"
             label="On Behalf Name"
           ></v-text-field>
-          <!-- {{dataDetailOrder}} -->
           <v-simple-table dense>
               <template v-slot:default>
               <thead>
@@ -78,6 +73,10 @@
         </v-card-text>
         <v-card-actions>
           <v-btn @click="viewOrder = false">close</v-btn>
+          <v-btn color="red darken-2" dark @click="reportPDF">
+            <v-icon>mdi-pdf</v-icon>
+            Print PDF
+          </v-btn>
         </v-card-actions>
       </v-card>
       </v-dialog>
@@ -147,6 +146,21 @@ export default {
           this.getCustomer();
       });
     },
+    reportPDF(){
+      axios({
+                  url: 'api/pdfOrders/' + this.id,
+                  method: 'GET',
+                  responseType: 'arraybuffer',
+              }).then((response) => {
+                   let blob = new Blob([response.data], {
+                            type: 'application/pdf'
+                        })
+                        let link = document.createElement('a')
+                        link.href = window.URL.createObjectURL(blob)
+                        link.download = 'Resto-Lumen-Orders.pdf'
+                        link.click()
+              });
+    }
   },
   created(){
     this.getCustomer()

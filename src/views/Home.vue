@@ -4,7 +4,7 @@
       <v-alert type="error" v-model="alert" dismissible>
         Qty Cannot Be Null
       </v-alert>
-      <v-card flat>
+      <v-card flat >
         <v-card-title
           >Menu List
           <v-spacer></v-spacer>
@@ -21,7 +21,7 @@
             :key="item.id"
             class="d-flex flex-column"
           >
-            <v-card>
+            <v-card class="rounded-xl yellow darken-2">
               <v-card-title>{{ item.name }}</v-card-title>
               <v-card-subtitle
                 >Rp. {{ item.price | formatNumber }}
@@ -36,7 +36,7 @@
               </v-card-subtitle>
             </v-card>
             <v-card-actions>
-              <v-btn @click="addCart(item)"> Add to cart </v-btn>
+              <v-btn @click="addCart(item)" color="yellow darken-4" dark> Add to cart </v-btn>
             </v-card-actions>
           </v-col>
         </v-row>

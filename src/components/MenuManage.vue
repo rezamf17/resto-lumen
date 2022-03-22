@@ -1,5 +1,6 @@
 <template>
-  <v-card width="70%" style="margin-left: 15%" class="mt-10">
+  <v-container>
+    <v-card>
     <v-dialog v-model="dialogEdit">
       <v-card>
         <v-card-title>Edit Menu</v-card-title>
@@ -46,7 +47,7 @@
     </v-dialog>
     <v-dialog v-model="dialog">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn color="primary" dark v-bind="attrs" v-on="on">
+        <v-btn color="yellow darken-3" dark v-bind="attrs" v-on="on">
           <v-icon>mdi-plus</v-icon>
           Add Menu
         </v-btn>
@@ -126,6 +127,7 @@
       </template>
     </v-data-table>
   </v-card>
+  </v-container>
 </template>
 <script>
 import axios from "axios";

@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
+    <v-app-bar app color="amber darken-2" dark>
       <v-app-bar-nav-icon
         @click="drawer = !drawer"
         v-if="user"
@@ -8,8 +8,11 @@
       <v-spacer></v-spacer>
       <Nav />
     </v-app-bar>
-    <v-navigation-drawer v-model="drawer" class="teal" width="220" dark app v-if="user"
+    <v-navigation-drawer v-model="drawer" class="red darken-3" width="230" dark app v-if="user"
       ><v-list-item>
+        <v-list-item-avatar>
+              <v-img src="../public/resto-logo.png"></v-img>
+            </v-list-item-avatar>
         <v-list-item-content>
           <v-list-item-title class="text-h6"> RESTO-LUMEN </v-list-item-title>
           <v-list-item-subtitle> Application </v-list-item-subtitle>
@@ -38,12 +41,12 @@
           </v-list-item-icon>
           <v-list-item-title>PROFILE</v-list-item-title>
         </v-list-item>
-        <v-list-item link>
+        <!-- <v-list-item link>
           <v-list-item-icon>
             <v-icon>mdi-logout</v-icon>
           </v-list-item-icon>
           <v-list-item-title>LOGOUT</v-list-item-title>
-        </v-list-item>
+        </v-list-item> -->
         </v-list>
       </v-list-group>
       <v-divider></v-divider>
@@ -79,7 +82,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-main>
+    <v-main color="blue">
       <router-view :url="url"> </router-view>
     </v-main>
   </v-app>
